@@ -8,56 +8,62 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the all of articles.
      */
     public function index()
     {
-        return Article::all();
+        $articles = Article::all();
+        return response()->json([$articles, 'message' => 'success'], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created article in storage.
      */
     public function store(Request $request)
     {
         $article = Article::create($request->all());
-        return response()->json($article, 201);
+
+        if ($article) {
+            return response()->json([$article, 'message' => 'success'], 201);
+        }
+
+        return response()->json(['message' => 'failed'], 500);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified article.
      */
     public function show(Article $article)
     {
-        return $article;
+        return response()->json($article, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified article in storage.
      */
     public function update(Request $request, Article $article)
     {
-        $updated = $article->update($request->all());
+        $update = $article->update($request->all());
 
-        if ($updated) {
+        if ($update) {
             return response()->json($article, 200);
         }
 
         return response()->json(['message' => 'Update failed'], 500);
-
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified article from storage.
      */
     public function destroy(Article $article)
     {
-        $deleted = $article->forceDelete();
+
+        $deleted = $article->delete();
 
         if ($deleted) {
-            return response()->json(['message' => 'Article deleted'], 204);
+            return response()->json(['message' => 'Deletion success'], 200);
         }
 
-        return response()->json(['message' => 'Delete failed'], 500);
+        return response()->json(['message' => 'Deletion failed'], 500);
     }
 }
