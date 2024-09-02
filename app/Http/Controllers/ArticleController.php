@@ -13,7 +13,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::all();
-        return response()->json([$articles, 'message' => 'success'], 200);
+        return response()->json([$articles, 'message' => 'success']);
     }
 
     /**
@@ -35,7 +35,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return response()->json($article, 200);
+        return response()->json($article);
     }
 
     /**
@@ -46,7 +46,7 @@ class ArticleController extends Controller
         $update = $article->update($request->all());
 
         if ($update) {
-            return response()->json($article, 200);
+            return response()->json($article);
         }
 
         return response()->json(['message' => 'Update failed'], 500);
@@ -61,7 +61,7 @@ class ArticleController extends Controller
         $deleted = $article->delete();
 
         if ($deleted) {
-            return response()->json(['message' => 'Deletion success'], 200);
+            return response()->json(['message' => 'Deletion success']);
         }
 
         return response()->json(['message' => 'Deletion failed'], 500);
